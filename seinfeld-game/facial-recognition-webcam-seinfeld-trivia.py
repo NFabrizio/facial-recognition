@@ -21,20 +21,21 @@ def add_point():
     score += 1
 
 def check_answer(guess, answer):
-    global answer_phrase
     global correct_answer
     global random_trivia_set
 
     if guess == answer:
-        answer_phrase = guess + " is correct! +1 point!"
+        set_answer_phrase(guess + " is correct! +1 point!")
         add_point()
         set_correct_answer(True)
-        timer = Timer(10.0, set_random_trivia_set())
-        timer.start()
+        set_timer = Timer(3.0, set_random_trivia_set)
+        set_timer.start()
     else:
-        answer_phrase = guess + " is incorrect! -1 point!"
+        set_answer_phrase(guess + " is incorrect! -1 point!")
         subtract_point()
         set_correct_answer(False)
+        phrase_timer = Timer(3.0, set_answer_phrase, [""])
+        phrase_timer.start()
 
 # Remove one of the trivia set from the list and return it
 def get_random_trivia_set():
@@ -56,17 +57,21 @@ def points_text(points, name):
     else:
         return str(points) + " points"
 
+def set_answer_phrase(text):
+    global answer_phrase
+
+    answer_phrase = text
+
 def set_correct_answer(bool_value):
     global correct_answer
 
     correct_answer = bool_value
 
 def set_random_trivia_set():
-    global answer_phrase
     global random_trivia_set
 
     random_trivia_set = get_random_trivia_set()
-    answer_phrase = ""
+    set_answer_phrase("")
     return random_trivia_set
 
 def subtract_point():
@@ -85,10 +90,10 @@ known_names, known_face_encodings = face_recognition_cli.scan_known_people(known
 process_this_frame = True
 score = 0
 trivia = [
-# ["Who is the star of Seinfeld?", "Jerry Seinfeld"],
+["Who is the star of Seinfeld?", "Jerry Seinfeld"],
 # ["Who plays Jerry's neighbor?", "Kosmo Kramer"],
 # ["Who worked at the New York Yankees?", "George Costanza"],
-["Who is the worst dancer?", "Elaine Benes"]
+# ["Who is the worst dancer?", "Elaine Benes"]
 ]
 # trivia_length = len(trivia)
 trivia_length = 0
