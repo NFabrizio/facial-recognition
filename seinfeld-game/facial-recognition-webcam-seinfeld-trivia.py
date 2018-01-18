@@ -91,30 +91,21 @@ process_this_frame = True
 score = 0
 trivia = [
 ["Who is the star of Seinfeld?", "Jerry Seinfeld"],
-# ["Who plays Jerry's neighbor?", "Kosmo Kramer"],
-# ["Who worked at the New York Yankees?", "George Costanza"],
-# ["Who is the worst dancer?", "Elaine Benes"]
+["Who plays Jerry's neighbor?", "Kosmo Kramer"],
+["Who worked at the New York Yankees?", "George Costanza"],
+["Who is the worst dancer?", "Elaine Benes"]
 ]
-# trivia_length = len(trivia)
 trivia_length = 0
 
 # Set video screen width
 cv_frame_width = video_capture.get(cv2.CAP_PROP_FRAME_WIDTH)
 
-# random_trivia_set = get_random_trivia_set()
+# Set the initial random trivia set
 set_random_trivia_set()
 
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
-
-    # if correct_answer:
-    #     print("random_trivia_set 1")
-    #     print(random_trivia_set)
-    #     time.sleep(3)
-    #     random_trivia_set = get_random_trivia_set()
-    #     print("random_trivia_set 2")
-    #     print(random_trivia_set)
 
     # Render trivia question box, random question and answer phrase
     cv2.rectangle(frame, (0, 0), (int(cv_frame_width), 100), (255, 0, 128), cv2.FILLED)
