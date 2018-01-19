@@ -29,7 +29,7 @@ third-party libraries.
       `cd ~/path/to/your/directory`
     2. In the terminal, run:  
       `git clone [clone-url-for-your-fork]`  
-      The URL should be in the format git@github.com:YourUsername/facial-recognition.git
+      The URL should be in the format `git@github.com:YourUsername/facial-recognition.git`
 3. In the terminal on your local environment, navigate to the facial recognition
    example  
   `cd ~/path/to/facial-recognition-directory/face_recognition-example`
@@ -57,4 +57,4 @@ recognize known faces in photographs or from images on another device (phone,
 tablet, etc.).
 
 To stop the project from running, return to the terminal window that the application
-was started from and type command + C.
+was started from and type `command + C`.
