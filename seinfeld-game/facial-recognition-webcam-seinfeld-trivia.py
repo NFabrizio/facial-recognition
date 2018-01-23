@@ -27,6 +27,7 @@ def add_point():
 
 def check_answer(guess, answer):
     global correct_answer
+    global guessed
     global random_trivia_set
 
     if guess == answer:
@@ -35,12 +36,14 @@ def check_answer(guess, answer):
         set_correct_answer(True)
         set_timer = Timer(3.0, set_random_trivia_set)
         set_timer.start()
+        guessed = ""
     else:
         set_answer_phrase(guess + " is incorrect! -1 point!")
         subtract_point()
         set_correct_answer(False)
         phrase_timer = Timer(3.0, set_answer_phrase, [""])
         phrase_timer.start()
+        guessed = ""
 
 # Remove one of the trivia set from the list and return it
 def get_random_trivia_set():
