@@ -27,7 +27,6 @@ def add_point():
 
 def check_answer(guess, answer):
     global correct_answer
-    global guessed
     global random_trivia_set
 
     if guess == answer:
@@ -36,14 +35,12 @@ def check_answer(guess, answer):
         set_correct_answer(True)
         set_timer = Timer(3.0, set_random_trivia_set)
         set_timer.start()
-        guessed = ""
     else:
         set_answer_phrase(guess + " is incorrect! -1 point!")
         subtract_point()
         set_correct_answer(False)
         phrase_timer = Timer(3.0, set_answer_phrase, [""])
         phrase_timer.start()
-        guessed = ""
 
 # Remove one of the trivia set from the list and return it
 def get_random_trivia_set():
@@ -75,11 +72,17 @@ def set_correct_answer(bool_value):
 
     correct_answer = bool_value
 
+def set_guessed(guess):
+    global guessed
+
+    guessed = guess
+
 def set_random_trivia_set():
     global random_trivia_set
 
     random_trivia_set = get_random_trivia_set()
     set_answer_phrase("")
+    set_guessed("")
     return random_trivia_set
 
 def subtract_point():
@@ -166,7 +169,7 @@ while True:
                 # Only check the answer the first time or if it is different from the last check
                 if name != guessed:
                     check_answer(name, random_trivia_set[1])
-                guessed = name
+                set_guessed(name)
 
     process_this_frame = not process_this_frame
 
