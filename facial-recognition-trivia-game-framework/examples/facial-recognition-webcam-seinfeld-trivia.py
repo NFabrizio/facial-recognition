@@ -22,7 +22,16 @@ def module_exists(module_name):
 module_exists("config")
 
 # Get reference to arguments passed in
-known_people_folder = sys.argv[1]
+try:
+    # If there is no known faces directory found, exit the script
+    sys.argv[1]
+except IndexError:
+    print("*****************************************************************************************")
+    print("No known faces directory supplied. Known faces directory required for application to run.")
+    print("*****************************************************************************************")
+    sys.exit()
+else:
+    known_people_folder = sys.argv[1]
 
 try:
     config
