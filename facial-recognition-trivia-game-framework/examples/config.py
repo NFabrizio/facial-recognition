@@ -1,3 +1,4 @@
+# Required configuration values
 answer_options = [
 "Cosmo Kramer",
 "Elaine Benes",
@@ -24,5 +25,21 @@ trivia = [
 ["Who broke up with the person they were dating because of a commercial?", "Jerry Seinfeld"]
 ]
 
+# Optional configuration values
+color_bg = {
+"r": 255,
+"g": 0,
+"b": 128
+}
+color_box = {
+"r": 255,
+"g": 0,
+"b": 255
+}
+color_text = {
+"r": 0,
+"g": 255,
+"b": 255
+}
 loser_phrase = "Sorry, sucker! You lost!"
 winner_phrase = "Good on ya. You are a winner! You really know your stuff!"

@@ -7,7 +7,26 @@ import sys
 import time
 from threading import Timer
 import importlib
-# import config2 as config
+
+# Set some default values
+default_knowns_dir = "knowns"
+default_winner_phrase = "Congratulations! You win!"
+default_loser_phrase = "Sorry you didn't win. Please play again."
+default_bg_color = {
+"r": 128,
+"g": 0,
+"b": 255
+}
+default_box_color = {
+"r": 0,
+"g": 0,
+"b": 255
+}
+default_text_color = {
+"r": 255,
+"g": 255,
+"b": 255
+}
 
 def module_exists(module_name):
     try:
@@ -21,17 +40,27 @@ def module_exists(module_name):
 # Attempt to import config file
 module_exists("config")
 
-# Get reference to arguments passed in
+# If no known faces directory found, try the default and if still not found, exit the script
 try:
-    # If there is no known faces directory found, exit the script
     sys.argv[1]
 except IndexError:
-    print("*****************************************************************************************")
-    print("No known faces directory supplied. Known faces directory required for application to run.")
-    print("*****************************************************************************************")
-    sys.exit()
+    # Check if default directory exists
+    if os.path.isdir(default_knowns_dir):
+        known_people_folder = default_knowns_dir
+    else:
+        print("*****************************************************************************************")
+        print("No known faces directory supplied. Known faces directory required for application to run.")
+        print("*****************************************************************************************")
+        sys.exit()
 else:
-    known_people_folder = sys.argv[1]
+    # If argument passed in, check that is a directory
+    if os.path.isdir(sys.argv[1]):
+        known_people_folder = sys.argv[1]
+    elif (sys.argv[1]):
+        print("*****************************************************************************************")
+        print(sys.argv[1] + " is not a directory. Known faces directory required for application to run.")
+        print("*****************************************************************************************")
+        sys.exit()
 
 try:
     config
@@ -77,23 +106,40 @@ else:
     trivia = config.trivia
 
 # Check whether custom winner and loser phrases were supplied
-winner_phrase = ""
-loser_phrase = ""
 try:
-    # global winner_phrase
-    config.winner_phrase
+    config.color_bg
 except AttributeError:
-    winner_phrase = "Congratulations! You win!"
+    color_bg = default_bg_color
 else:
-    winner_phrase = config.winner_phrase
+    color_bg = config.color_bg
 
 try:
-    # global winner_phrase
+    config.color_box
+except AttributeError:
+    color_box = default_box_color
+else:
+    color_box = config.color_box
+
+try:
+    config.color_text
+except AttributeError:
+    color_text = default_text_color
+else:
+    color_text = config.color_text
+
+try:
     config.loser_phrase
 except AttributeError:
-    loser_phrase = "Sorry you didn't win. Please play again."
+    loser_phrase = default_loser_phrase
 else:
     loser_phrase = config.loser_phrase
+
+try:
+    config.winner_phrase
+except AttributeError:
+    winner_phrase = default_winner_phrase
+else:
+    winner_phrase = config.winner_phrase
 
 # Add some game functions
 def add_point():
@@ -188,9 +234,9 @@ while True:
     ret, frame = video_capture.read()
 
     # Render trivia question box, random question and answer phrase
-    cv2.rectangle(frame, (0, 0), (int(cv_frame_width), 100), (255, 0, 128), cv2.FILLED)
-    cv2.putText(frame, random_trivia_set[0], (6, 35), font, 1.0, (255, 255, 255), 1)
-    cv2.putText(frame, answer_phrase, (6, 70), font, 1.0, (255, 255, 255), 1)
+    cv2.rectangle(frame, (0, 0), (int(cv_frame_width), 100), (color_bg["b"], color_bg["g"], color_bg["r"]), cv2.FILLED)
+    cv2.putText(frame, random_trivia_set[0], (6, 35), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
+    cv2.putText(frame, answer_phrase, (6, 70), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
 
     # Resize frame of video to 1/4 size for faster face recognition processing
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
@@ -201,9 +247,9 @@ while True:
     # Only process every other frame of video to save time
     if process_this_frame:
         # Render trivia question box, random question and answer phrase again to avoid flicker
-        cv2.rectangle(frame, (0, 0), (int(cv_frame_width), 100), (255, 0, 128), cv2.FILLED)
-        cv2.putText(frame, random_trivia_set[0], (6, 35), font, 1.0, (255, 255, 255), 1)
-        cv2.putText(frame, answer_phrase, (6, 70), font, 1.0, (255, 255, 255), 1)
+        cv2.rectangle(frame, (0, 0), (int(cv_frame_width), 100), (color_bg["b"], color_bg["g"], color_bg["r"]), cv2.FILLED)
+        cv2.putText(frame, random_trivia_set[0], (6, 35), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
+        cv2.putText(frame, answer_phrase, (6, 70), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
 
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
@@ -239,13 +285,13 @@ while True:
         left *= 4
 
         # Draw a box around the face
-        cv2.rectangle(frame, (left, top), (right, bottom), (255, 0, 0), 2)
+        cv2.rectangle(frame, (left, top), (right, bottom), (color_box["b"], color_box["g"], color_box["r"]), 2)
 
         # Draw a label with a name below the face
-        cv2.rectangle(frame, (left, bottom + 70), (right, bottom), (255, 0, 0), cv2.FILLED)
+        cv2.rectangle(frame, (left, bottom + 70), (right, bottom), (color_box["b"], color_box["g"], color_box["r"]), cv2.FILLED)
 
-        cv2.putText(frame, name, (left + 6, bottom + 30), font, 1.0, (255, 255, 255), 1)
-        cv2.putText(frame, points_text(score, name), (left + 6, bottom + 60), font, 1.0, (255, 255, 255), 1)
+        cv2.putText(frame, name, (left + 6, bottom + 30), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
+        cv2.putText(frame, points_text(score, name), (left + 6, bottom + 60), font, 1.0, (color_text["b"], color_text["g"], color_text["r"]), 1)
 
     # Display the resulting image
     cv2.imshow('Video', frame)
