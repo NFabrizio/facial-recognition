@@ -6,7 +6,7 @@ answer_options = [
 "Jerry Seinfeld"
 ]
 
-trivia = [
+trivia_sets = [
 ["Who is Jerry's neighbor?", "Cosmo Kramer"],
 ["Who grew up in a household where they had to be in bed by 9pm?", "Cosmo Kramer"],
 ["Whose father never made an appearance on the show?", "Cosmo Kramer"],

@@ -96,16 +96,16 @@ else:
 
 # Make sure there are trivia sets
 try:
-    config.trivia
+    config.trivia_sets
 except AttributeError:
     print("*********************************************************************")
     print("No trivia sets supplied. Trivia sets required for application to run.")
     print("*********************************************************************")
     sys.exit()
 else:
-    trivia = config.trivia
+    trivia = config.trivia_sets
 
-# Check whether custom winner and loser phrases were supplied
+# Check whether custom colors were provided
 try:
     config.color_bg
 except AttributeError:
@@ -127,6 +127,7 @@ except AttributeError:
 else:
     color_text = config.color_text
 
+# Check whether custom winner and loser phrases were provided
 try:
     config.loser_phrase
 except AttributeError:
@@ -163,7 +164,7 @@ def check_answer(guess, answer):
         phrase_timer = Timer(3.0, set_answer_phrase, [""])
         phrase_timer.start()
 
-# Remove one of the trivia set from the list and return it
+# Remove one of the trivia sets from the list and return it
 def get_random_trivia_set():
     global trivia_length
 
