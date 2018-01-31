@@ -105,7 +105,7 @@ except AttributeError:
 else:
     trivia = config.trivia
 
-# Check whether custom winner and loser phrases were supplied
+# Check whether custom colors were provided
 try:
     config.color_bg
 except AttributeError:
@@ -127,6 +127,7 @@ except AttributeError:
 else:
     color_text = config.color_text
 
+# Check whether custom winner and loser phrases were provided
 try:
     config.loser_phrase
 except AttributeError:
