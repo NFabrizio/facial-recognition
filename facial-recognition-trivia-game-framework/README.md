@@ -77,7 +77,7 @@ application was started from and type `command + C`.
 This framework requires some configuration to work properly. There are some required
 configuration values and some optional ones. They are listed and described below.  
 *To see an example of a configuration file, view the config example included with
-this library at [facial-recognition/facial-recognition-trivia-game-framework/examples/config.py](https://github.com/NFabrizio/facial-recognition/blob/master/facial-recognition-trivia-game-framework/examples/config.py)*  
+this framework at [facial-recognition/facial-recognition-trivia-game-framework/examples/config.py](https://github.com/NFabrizio/facial-recognition/blob/master/facial-recognition-trivia-game-framework/examples/config.py)*  
 
 ## Required Configuration  
 
